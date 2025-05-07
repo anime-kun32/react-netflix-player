@@ -506,6 +506,35 @@ export default function ReactNetflixPlayer({
       setPlaying(autoPlay);
     }
   }, [src]);
+  
+  useEffect(() => {
+  const video = videoComponent.current;
+  if (!video || !src) return;
+
+  // If it's HLS (.m3u8)
+  if (src.endsWith('.m3u8')) {
+    if (Hls.isSupported()) {
+      const hls = new Hls();
+      hls.loadSource(src);
+      hls.attachMedia(video);
+
+      hls.on(Hls.Events.ERROR, function (event, data) {
+        console.error('HLS.js error:', data);
+      });
+
+      return () => {
+        hls.destroy();
+      };
+    } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+      // Safari native support
+      video.src = src;
+    }
+  } else {
+    // Fallback for regular .mp4 or other types
+    video.src = src;
+  }
+}, [src]);
+
 
   useEffect(() => {
     document.addEventListener('keydown', getKeyBoardInteration, false);
