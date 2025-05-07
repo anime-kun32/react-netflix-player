@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Lucasmg37/react-netflix-player.git"
+    "url": "https://github.com/anime-kun32/react-netflix-player.git"
   },
   "eslintConfig": {
     "extends": "react-app"
