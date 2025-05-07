@@ -1,3 +1,4 @@
+import Hls from 'hls.js';
 import React, { useEffect, useState, useRef, SyntheticEvent } from 'react';
 import i18n from 'i18next';
 import { useTranslation, initReactI18next } from 'react-i18next';
