@@ -643,7 +643,6 @@ export default function ReactNetflixPlayer({
       {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
       <video
         ref={videoComponent}
-        src={src}
         controls={false}
         onCanPlay={() => startVideo()}
         onTimeUpdate={timeUpdate}
