@@ -510,7 +510,7 @@ export default function ReactNetflixPlayer({
     setShowDataNext(false);
     setPlaying(autoPlay);
 
-    // 🚀 Force subtitle track to show if provided
+    // ✅ Force subtitle track to show
     const tracks = video.textTracks;
     for (let i = 0; i < tracks.length; i++) {
       tracks[i].mode = subtitles?.[i]?.default ? 'showing' : 'disabled';
@@ -660,10 +660,19 @@ export default function ReactNetflixPlayer({
   onTimeUpdate={timeUpdate}
   onError={erroVideo}
   onEnded={onEndedFunction}
-/>
-{subtitleMedia && (
-  <track label="English" kind="subtitles" srcLang="en" src={subtitleMedia} default />
-)}
+>
+  {subtitles.map((track, index) => (
+    <track
+      key={index}
+      label={track.label}
+      kind="subtitles"
+      srcLang={track.srcLang}
+      src={track.src}
+      default={track.default}
+    />
+  ))}
+</video>
+
 
 
       <Controlls
