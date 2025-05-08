@@ -573,16 +573,15 @@ useEffect(() => {
         track.src = URL.createObjectURL(blob);
         console.log("Subtitle blob loaded successfully.");
 
-        // Apply a specific style to the subtitle cue to move it up
-        const styleTag = document.createElement('style');
-        styleTag.innerHTML = `
-          ::cue {
-            line: 85%; /* Adjust this value to move the subtitles up or down */
-            background: rgba(0, 0, 0, 0.5); /* Optional: add a background for better visibility */
-            color: white; /* Optional: change text color */
-          }
-        `;
-        document.head.appendChild(styleTag); // Dynamically append the style
+        // Delay to allow the subtitle cues to load
+        setTimeout(() => {
+          // Adjust the cue's position by directly manipulating the style
+          const cueElements = document.querySelectorAll('video::cue');
+          cueElements.forEach(cue => {
+            (cue as HTMLElement).style.lineHeight = '110%'; // Adjust the line height for a higher position
+            (cue as HTMLElement).style.bottom = '15%'; // Adjust the bottom position for the cues
+          });
+        }, 1000); // Wait a second for the cues to be applied
       } else {
         console.warn("Track element with ID 'dynamic-subtitles' not found.");
       }
