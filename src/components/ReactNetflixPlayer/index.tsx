@@ -768,12 +768,29 @@ useEffect(() => {
   onError={erroVideo}
   onEnded={onEndedFunction}
 >
-      <div
+   <div
   id="custom-captions"
-  className={`absolute w-full text-center text-white text-xl pointer-events-none z-30 transition-all duration-300 ${
-    showControls ? 'bottom-24' : 'bottom-12'
-  }`}
-></div>
+  style={{
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: showControls ? '100px' : '60px',
+    width: '100%',
+    textAlign: 'center',
+    color: 'white',
+    fontSize: '20px',
+    fontWeight: 'bold',
+    padding: '8px 16px',
+    background: 'rgba(0, 0, 0, 0.6)',
+    textShadow: '1px 1px 4px black',
+    zIndex: 9999,
+    pointerEvents: 'none',
+    transition: 'bottom 0.3s ease',
+  }}
+>
+  Loading captions...
+</div>
+
 
   {subtitles.map((track, index) => (
     <track
