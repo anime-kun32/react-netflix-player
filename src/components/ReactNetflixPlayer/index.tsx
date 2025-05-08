@@ -142,6 +142,7 @@ export default function ReactNetflixPlayer({
 
   playbackRateOptions = ['0.25', '0.5', '0.75', 'Normal', '1.25', '1.5', '2'],
   playbackRateStart = 1,
+  subtitleMedia = '',
 }: // subtitleMedia,
   IProps) {
   // Referências
@@ -642,15 +643,18 @@ export default function ReactNetflixPlayer({
       {renderCloseVideo()}
 
       {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
-      <video
-        ref={videoComponent}
-        controls={false}
-        onCanPlay={() => startVideo()}
-        onTimeUpdate={timeUpdate}
-        onError={erroVideo}
-        onEnded={onEndedFunction}
-      />
-       <track label="English" kind="subtitles" srcLang="en" src={subtitleMedia} default />
+    <video
+  ref={videoComponent}
+  controls={false}
+  onCanPlay={() => startVideo()}
+  onTimeUpdate={timeUpdate}
+  onError={erroVideo}
+  onEnded={onEndedFunction}
+/>
+{subtitleMedia && (
+  <track label="English" kind="subtitles" srcLang="en" src={subtitleMedia} default />
+)}
+
 
       <Controlls
         show={showControls === true && videoReady === true && error === false}
