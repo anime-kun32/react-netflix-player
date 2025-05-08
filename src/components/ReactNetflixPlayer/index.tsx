@@ -554,7 +554,7 @@ export default function ReactNetflixPlayer({
   }
 }, [src]);
   
-  useEffect(() => {
+useEffect(() => {
   if (!subtitles?.[0]?.src) return;
 
   const convertAndReplaceTrack = async () => {
@@ -570,8 +570,18 @@ export default function ReactNetflixPlayer({
 
       const track = document.getElementById("dynamic-subtitles") as HTMLTrackElement | null;
       if (track) {
+        // Create a new URL for the subtitle blob
         track.src = URL.createObjectURL(blob);
         console.log("Subtitle blob loaded successfully.");
+
+        // Apply CSS to adjust the line position
+        const styleTag = document.createElement('style');
+        styleTag.innerHTML = `
+          ::cue {
+            line: 80%;
+          }
+        `;
+        document.head.appendChild(styleTag); // Dynamically add the style to the document
       } else {
         console.warn("Track element with ID 'dynamic-subtitles' not found.");
       }
@@ -582,6 +592,7 @@ export default function ReactNetflixPlayer({
 
   convertAndReplaceTrack();
 }, [subtitles]);
+
 
 
   
