@@ -102,6 +102,7 @@ export interface IProps {
   dataNext?: IDataNext;
   reprodutionList?: IItemReproduction[];
   qualities?: IQualities[];
+  subtitleMedia?: string;
   onChangeQuality?: (quality: string | number) => void;
 }
 
