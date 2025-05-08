@@ -51,16 +51,20 @@ export const Container = styled.div<IContainerProps>`
     cursor: none;
     opacity: ${props => (props.hideVideo ? 0 : 1)};
 
-    &::cue {
-      color: #eee;
-      z-index: 4;
-      text-shadow: #222 0 0 5px;
-      background: none;
-      font-family: ${props =>
-        props.fontFamily
-          ? props.fontFamily
-          : "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif"};
-    }
+  &::cue {
+  line: 80%;
+  font-size: 18px;
+  color: #ffffff;
+  background: rgba(0, 0, 0, 0.6);
+  padding: 4px 8px;
+  border-radius: 6px;
+  text-shadow: 1px 1px 2px black;
+  font-family: ${props =>
+    props.fontFamily
+      ? props.fontFamily
+      : "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif"};
+}
+
   }
 
   ${props =>
