@@ -650,7 +650,7 @@ export default function ReactNetflixPlayer({
         onError={erroVideo}
         onEnded={onEndedFunction}
       />
-      {/* <track label="English" kind="subtitles" srcLang="en" src={subtitleMedia} default /> */}
+       <track label="English" kind="subtitles" srcLang="en" src={subtitleMedia} default />
 
       <Controlls
         show={showControls === true && videoReady === true && error === false}
