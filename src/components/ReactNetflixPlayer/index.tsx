@@ -102,7 +102,13 @@ export interface IProps {
   dataNext?: IDataNext;
   reprodutionList?: IItemReproduction[];
   qualities?: IQualities[];
-  subtitleMedia?: string;
+  subtitles?: {
+  src: string;
+  label: string;
+  srcLang: string;
+  default?: boolean;
+}[];
+
   onChangeQuality?: (quality: string | number) => void;
 }
 
@@ -143,7 +149,7 @@ export default function ReactNetflixPlayer({
 
   playbackRateOptions = ['0.25', '0.5', '0.75', 'Normal', '1.25', '1.5', '2'],
   playbackRateStart = 1,
-  subtitleMedia = '',
+  subtitles = [],
 }: // subtitleMedia,
   IProps) {
   // Referências
@@ -492,23 +498,26 @@ export default function ReactNetflixPlayer({
   }, [showReproductionList]);
 
   useEffect(() => {
-    if (src && videoComponent.current) {
-      videoComponent.current.currentTime = startPosition;
-      setProgress(0);
-      setDuration(0);
-      setVideoReady(false);
-      setError(false);
-      setShowReproductionList(false);
-      setShowDataNext(false);
-      // setActualBuffer({
-      //   index: 0,
-      //   start: 0,
-      //   end: 0,
-      //   endBuffer: 0,
-      // });
-      setPlaying(autoPlay);
+  if (src && videoComponent.current) {
+    const video = videoComponent.current;
+
+    video.currentTime = startPosition;
+    setProgress(0);
+    setDuration(0);
+    setVideoReady(false);
+    setError(false);
+    setShowReproductionList(false);
+    setShowDataNext(false);
+    setPlaying(autoPlay);
+
+    // 🚀 Force subtitle track to show if provided
+    const tracks = video.textTracks;
+    for (let i = 0; i < tracks.length; i++) {
+      tracks[i].mode = subtitles?.[i]?.default ? 'showing' : 'disabled';
     }
-  }, [src]);
+  }
+}, [src]);
+
   
   useEffect(() => {
   const video = videoComponent.current;
