@@ -88,7 +88,8 @@ export interface IControlsProps {
 export const Controlls = styled.div<IControlsProps>`
   opacity: ${props => (props.show ? 1 : 0)};
   transform: ${props => (props.show ? 'scale(1)' : 'scale(1.2)')};
-
+  
+  padding-bottom: 80px;
   position: absolute;
   top: 0;
   width: 100%;
