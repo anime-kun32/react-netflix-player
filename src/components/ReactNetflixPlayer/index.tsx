@@ -578,7 +578,7 @@ useEffect(() => {
         const styleTag = document.createElement('style');
         styleTag.innerHTML = `
           ::cue {
-            line: 80%;
+            line: 100%;
           }
         `;
         document.head.appendChild(styleTag); // Dynamically add the style to the document
