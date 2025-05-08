@@ -553,6 +553,36 @@ export default function ReactNetflixPlayer({
     }
   }
 }, [src]);
+
+
+
+useEffect(() => {
+  const video = videoComponent.current;
+  const captionsDiv = document.getElementById('custom-captions');
+  if (!video || !captionsDiv) return;
+
+  const tracks = video.textTracks;
+  if (!tracks || tracks.length === 0) return;
+
+  const track = tracks[0];
+  track.mode = 'hidden'; // Hide browser-native captions
+
+  const updateCaptions = () => {
+    if (track.activeCues.length > 0) {
+      const cue = track.activeCues[0] as VTTCue;
+      captionsDiv.innerText = cue.text;
+    } else {
+      captionsDiv.innerText = '';
+    }
+  };
+
+  track.addEventListener('cuechange', updateCaptions);
+
+  return () => {
+    track.removeEventListener('cuechange', updateCaptions);
+  };
+}, [subtitles]);
+
   
 useEffect(() => {
   if (!subtitles?.[0]?.src) return;
@@ -738,6 +768,13 @@ useEffect(() => {
   onError={erroVideo}
   onEnded={onEndedFunction}
 >
+      <div
+  id="custom-captions"
+  className={`absolute w-full text-center text-white text-xl pointer-events-none z-30 transition-all duration-300 ${
+    showControls ? 'bottom-24' : 'bottom-12'
+  }`}
+></div>
+
   {subtitles.map((track, index) => (
     <track
       key={index}
