@@ -51,19 +51,21 @@ export const Container = styled.div<IContainerProps>`
     cursor: none;
     opacity: ${props => (props.hideVideo ? 0 : 1)};
 
-  &::cue {
-  line: 80%;
-  font-size: 18px;
-  color: #ffffff;
-  background: rgba(0, 0, 0, 0.6);
-  padding: 4px 8px;
-  border-radius: 6px;
-  text-shadow: 1px 1px 2px black;
+&::cue {
+  color: #eee;
+  text-shadow: #222 0 0 5px;
+  background: none;
+  position: absolute; /* Add this */
+  bottom: 60px;        /* Adjust this based on control height */
+  z-index: 10001;      /* Ensure it's above your controls */
+  width: 100%;
+  text-align: center;
   font-family: ${props =>
     props.fontFamily
       ? props.fontFamily
       : "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif"};
 }
+
 
   }
 
