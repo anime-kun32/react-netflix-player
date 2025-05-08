@@ -34,6 +34,42 @@ import {
 } from './styles';
 import translations from '../../i18n';
 
+function convertVTTtoJSON(vttText: string) {
+  const lines = vttText.split('\n');
+  const captions: { start: string; end: string; text: string }[] = [];
+
+  let i = 0;
+  while (i < lines.length) {
+    const line = lines[i].trim();
+
+    // Skip headers and blank lines
+    if (!line || line.startsWith('WEBVTT')) {
+      i++;
+      continue;
+    }
+
+    const timeMatch = line.match(/(\d{2}:\d{2}:\d{2}\.\d{3}) --> (\d{2}:\d{2}:\d{2}\.\d{3})/);
+    if (timeMatch) {
+      const start = timeMatch[1];
+      const end = timeMatch[2];
+      i++;
+
+      let text = '';
+      while (i < lines.length && lines[i].trim() !== '') {
+        text += lines[i].trim() + '\n';
+        i++;
+      }
+
+      captions.push({ start, end, text: text.trim() });
+    } else {
+      i++;
+    }
+  }
+
+  return Promise.resolve(captions);
+}
+
+
 i18n.use(initReactI18next).init({
   resources: translations,
   lng: 'pt',
@@ -517,6 +553,36 @@ export default function ReactNetflixPlayer({
     }
   }
 }, [src]);
+  
+  useEffect(() => {
+  if (!subtitles?.[0]?.src) return;
+
+  const convertAndReplaceTrack = async () => {
+    try {
+      const res = await fetch(subtitles[0].src);
+      const vttText = await res.text();
+      const captionsJson = await convertVTTtoJSON(vttText);
+
+      const webVTTString = captionsJson
+        .map(caption => `${caption.start} --> ${caption.end}\n${caption.text}`)
+        .join('\n\n');
+      const blob = new Blob([`WEBVTT\n\n${webVTTString}`], { type: 'text/vtt' });
+
+      const track = document.getElementById("dynamic-subtitles") as HTMLTrackElement | null;
+      if (track) {
+        track.src = URL.createObjectURL(blob);
+        console.log("Subtitle blob loaded successfully.");
+      } else {
+        console.warn("Track element with ID 'dynamic-subtitles' not found.");
+      }
+    } catch (e) {
+      console.error("Error processing subtitles", e);
+    }
+  };
+
+  convertAndReplaceTrack();
+}, [subtitles]);
+
 
   
   useEffect(() => {
@@ -665,6 +731,7 @@ export default function ReactNetflixPlayer({
     <track
       key={index}
       label={track.label}
+      id={index === 0 ? "dynamic-subtitles" : undefined} 
       kind="subtitles"
       srcLang={track.srcLang}
       src={track.src}
