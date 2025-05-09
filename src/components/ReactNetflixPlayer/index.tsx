@@ -36,31 +36,37 @@ import translations from '../../i18n';
 
 function convertVTTtoJSON(vttText: string) {
   const lines = vttText.split('\n');
-  const captions: { start: string; end: string; text: string }[] = [];
+  const captions: { cue: string; text: string }[] = [];
 
   let i = 0;
   while (i < lines.length) {
     const line = lines[i].trim();
 
-    // Skip headers and blank lines
     if (!line || line.startsWith('WEBVTT')) {
       i++;
       continue;
     }
 
-    const timeMatch = line.match(/(\d{2}:\d{2}:\d{2}\.\d{3}) --> (\d{2}:\d{2}:\d{2}\.\d{3})/);
+    const timeMatch = line.match(
+      /^(\d{2}:\d{2}:\d{2}\.\d{3}) --> (\d{2}:\d{2}:\d{2}\.\d{3})(.*)$/
+    );
     if (timeMatch) {
       const start = timeMatch[1];
       const end = timeMatch[2];
-      i++;
 
+      const cue = `${start} --> ${end} align:middle position:50%`;
+
+      i++;
       let text = '';
       while (i < lines.length && lines[i].trim() !== '') {
         text += lines[i].trim() + '\n';
         i++;
       }
 
-      captions.push({ start, end, text: text.trim() });
+      captions.push({
+        cue,
+        text: text.trim(),
+      });
     } else {
       i++;
     }
@@ -68,6 +74,7 @@ function convertVTTtoJSON(vttText: string) {
 
   return Promise.resolve(captions);
 }
+
 
 
 i18n.use(initReactI18next).init({
