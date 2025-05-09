@@ -735,6 +735,7 @@ export const ItemListQuality = styled(ItemControllBar)`
       margin-left: auto;
     }
   }
+  `;
 
   export const CustomCaptions = styled.div<{ showControls: boolean }>`
   position: absolute;
