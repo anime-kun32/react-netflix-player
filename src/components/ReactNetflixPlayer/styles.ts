@@ -735,4 +735,19 @@ export const ItemListQuality = styled(ItemControllBar)`
       margin-left: auto;
     }
   }
+
+  export const CustomCaptions = styled.div<{ showControls: boolean }>`
+  position: absolute;
+  bottom: ${props => (props.showControls ? '100px' : '60px')};
+  left: 0;
+  right: 0;
+  text-align: center;
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+  padding: 6px 12px;
+  text-shadow: 1px 1px 3px black;
+  z-index: 10001;
+  pointer-events: none;
+  transition: bottom 0.3s ease;
 `;
