@@ -774,22 +774,23 @@ useEffect(() => {
     position: 'absolute',
     left: 0,
     right: 0,
-    bottom: showControls ? '100px' : '60px',
+    bottom: showControls ? '90px' : '60px', 
     width: '100%',
     textAlign: 'center',
     color: 'white',
     fontSize: '20px',
     fontWeight: 'bold',
-    padding: '8px 16px',
-    background: 'rgba(0, 0, 0, 0.6)',
-    textShadow: '1px 1px 4px black',
-    zIndex: 9999,
+    padding: '6px 12px',
+    background: 'rgba(0, 0, 0, 0.5)',
+    textShadow: '1px 1px 3px black',
+    zIndex: 1000,
     pointerEvents: 'none',
     transition: 'bottom 0.3s ease',
   }}
 >
   Loading captions...
 </div>
+
 
 
   {subtitles.map((track, index) => (
