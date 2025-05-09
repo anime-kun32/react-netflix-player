@@ -761,7 +761,7 @@ useEffect(() => {
       {renderCloseVideo()}
 
       {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
-  <video
+    <video
   ref={videoComponent}
   controls={false}
   onCanPlay={() => startVideo()}
@@ -769,23 +769,10 @@ useEffect(() => {
   onError={erroVideo}
   onEnded={onEndedFunction}
 >
-  {subtitles.map((track, index) => (
-    <track
-      key={index}
-      label={track.label}
-      id={index === 0 ? "dynamic-subtitles" : undefined} 
-      kind="subtitles"
-      srcLang={track.srcLang}
-      src={track.src}
-      default={track.default}
-    />
-  ))}
-</video>
-
+   
 <CustomCaptions showControls={showControls} id="custom-captions">
   Loading captions...
 </CustomCaptions>
-
 
 
 
