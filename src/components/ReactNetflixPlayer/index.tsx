@@ -191,6 +191,22 @@ export default function ReactNetflixPlayer({
   IProps) {
   // Referências
   const videoComponent = useRef<null | HTMLVideoElement>(null);
+  
+  useEffect(() => {
+  const video = videoComponent.current;
+  if (!video) return;
+
+  for (let i = 0; i < video.textTracks.length; i++) {
+    const track = video.textTracks[i];
+    for (let j = 0; j < (track.cues?.length ?? 0); j++) {
+      const cue = track.cues?.[j] as VTTCue;
+      if (cue) {
+        cue.line = showControls ? 'auto' : '95%';
+      }
+    }
+  }
+}, [showControls]);
+
   const timerRef = useRef<null | NodeJS.Timeout>(null);
   const timerBuffer = useRef<null | NodeJS.Timeout>(null);
   const playerElement = useRef<null | HTMLDivElement>(null);
