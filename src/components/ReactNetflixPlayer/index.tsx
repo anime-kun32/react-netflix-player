@@ -761,7 +761,7 @@ useEffect(() => {
       {renderCloseVideo()}
 
       {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
-   <video
+  <video
   ref={videoComponent}
   controls={false}
   onCanPlay={() => startVideo()}
