@@ -31,7 +31,6 @@ import {
   ItemNext,
   ItemListReproduction,
   ItemListQuality,
-  CustomCaptions,
 } from './styles';
 import translations from '../../i18n';
 
@@ -554,38 +553,8 @@ export default function ReactNetflixPlayer({
     }
   }
 }, [src]);
-
-
-
-useEffect(() => {
-  const video = videoComponent.current;
-  const captionsDiv = document.getElementById('custom-captions');
-  if (!video || !captionsDiv) return;
-
-  const tracks = video.textTracks;
-  if (!tracks || tracks.length === 0) return;
-
-  const track = tracks[0];
-  track.mode = 'hidden'; // Hide browser-native captions
-
-  const updateCaptions = () => {
-    if (track.activeCues.length > 0) {
-      const cue = track.activeCues[0] as VTTCue;
-      captionsDiv.innerText = cue.text;
-    } else {
-      captionsDiv.innerText = '';
-    }
-  };
-
-  track.addEventListener('cuechange', updateCaptions);
-
-  return () => {
-    track.removeEventListener('cuechange', updateCaptions);
-  };
-}, [subtitles]);
-
   
-useEffect(() => {
+  useEffect(() => {
   if (!subtitles?.[0]?.src) return;
 
   const convertAndReplaceTrack = async () => {
@@ -603,16 +572,6 @@ useEffect(() => {
       if (track) {
         track.src = URL.createObjectURL(blob);
         console.log("Subtitle blob loaded successfully.");
-
-        // Delay to allow the subtitle cues to load
-        setTimeout(() => {
-          // Adjust the cue's position by directly manipulating the style
-          const cueElements = document.querySelectorAll('video::cue');
-          cueElements.forEach(cue => {
-            (cue as HTMLElement).style.lineHeight = '110%'; // Adjust the line height for a higher position
-            (cue as HTMLElement).style.bottom = '15%'; // Adjust the bottom position for the cues
-          });
-        }, 1000); // Wait a second for the cues to be applied
       } else {
         console.warn("Track element with ID 'dynamic-subtitles' not found.");
       }
@@ -623,7 +582,6 @@ useEffect(() => {
 
   convertAndReplaceTrack();
 }, [subtitles]);
-
 
 
   
@@ -769,13 +727,6 @@ useEffect(() => {
   onError={erroVideo}
   onEnded={onEndedFunction}
 >
-   
-<CustomCaptions showControls={showControls} id="custom-captions">
-  Loading captions...
-</CustomCaptions>
-
-
-
   {subtitles.map((track, index) => (
     <track
       key={index}
