@@ -31,6 +31,7 @@ import {
   ItemNext,
   ItemListReproduction,
   ItemListQuality,
+  CustomCaptions,
 } from './styles';
 import translations from '../../i18n';
 
@@ -768,28 +769,10 @@ useEffect(() => {
   onError={erroVideo}
   onEnded={onEndedFunction}
 >
-   <div
-  id="custom-captions"
-  style={{
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    bottom: showControls ? '90px' : '60px', 
-    width: '100%',
-    textAlign: 'center',
-    color: 'white',
-    fontSize: '20px',
-    fontWeight: 'bold',
-    padding: '6px 12px',
-    background: 'rgba(0, 0, 0, 0.5)',
-    textShadow: '1px 1px 3px black',
-    zIndex: 1000,
-    pointerEvents: 'none',
-    transition: 'bottom 0.3s ease',
-  }}
->
+   
+<CustomCaptions showControls={showControls} id="custom-captions">
   Loading captions...
-</div>
+</CustomCaptions>
 
 
 
